@@ -22,8 +22,7 @@ RUN yum install -y ansible.noarch && \
     subscription-manager unregister && \
     subscription-manager clean
 
-CMD [ "updatedb" ]
-CMD ["/usr/sbin/init"]
+CMD [ "updatedb" , "/usr/sbin/init"]
 
 # docker build -t rhel7-ansible .
 # docker run -itd --network newasguard --ip 192.168.2.3 --name rhel7-ansiblehost rhel7-ansible
