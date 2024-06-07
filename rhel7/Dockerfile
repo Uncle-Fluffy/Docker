@@ -3,7 +3,7 @@ ENV container docker
 
 # Set environemtn variable for subscription
 ENV RHSM_USERNAME=tcarter528
-ENV RHSM_PASSWORD='-6BkHNqZLfcc$m6'
+ENV RHSM_PASSWORD=NULLRedHat1
 
 # Install required packages
 #RUN subscription-manager register --username tcarter528 --password '-6BkHNqZLfcc$m6' --auto-attach
