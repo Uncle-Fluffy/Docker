@@ -13,11 +13,13 @@ RUN dnf update && \
     dnf install -y net-tools && \
     dnf install -y iputils && \
     dnf install -y traceroute && \
-    dnf install -y mlocate \
+    dnf install -y mlocate && \
     dnf install -y java-1.8.0-openjdk.x86_64 && \
     subscription-manager unregister
 
 CMD [ "updatedb" , "/bin/bash"]
 # docker build -t rhel9-ansible .
 # docker run -itd --rm --name rhel9-ansiblehost rhel9-ansible
- 
+# docker container ls
+# docker exec -it 3d5edec129dd bash
+# docker stop 3d5edec129dd
