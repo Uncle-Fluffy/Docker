@@ -1,0 +1,18 @@
+services:
+  ansible:
+    image: rhel8-ansible
+    command: /sbin/init
+
+  host1:
+    image: rhel8-ansible
+    command: /sbin/init
+
+  host2:
+    image: rhel8-ansible
+    command: /sbin/init
+
+# docker compose -f docker-compose.yaml up -d
+# docker ps -a
+# docker exec -it cluster-ansible-1 bash
+
+# docker compose -f docker-compose.yaml down
