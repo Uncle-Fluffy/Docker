@@ -1,0 +1,9 @@
+[host1]
+cluster-host1-1
+
+[host2]
+cluster-host2-1
+
+[multi:children]
+host1
+host2
