@@ -1,0 +1,12 @@
+[ansible_host]
+acluster-ansible-1
+
+[host1]
+acluster-host1-1
+
+[host2]
+acluster-host2-1
+
+[nifi_nodes:children]
+host1
+host2
