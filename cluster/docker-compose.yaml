@@ -1,15 +1,16 @@
 services:
   ansible:
     image: rhel8-ansible
-    command: /sbin/init
+    #command: /sbin/init
+    command: /usr/sbin/sshd -D
 
   host1:
     image: rhel8-ansible
-    command: /sbin/init
+    command: /usr/sbin/sshd -D
 
   host2:
     image: rhel8-ansible
-    command: /sbin/init
+    command: /usr/sbin/sshd -D
 
 # docker compose -f docker-compose.yaml up -d
 # docker ps -a
