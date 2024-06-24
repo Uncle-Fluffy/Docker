@@ -23,7 +23,6 @@ RUN ssh-keygen -t rsa -b 2048 -N "" -f ~/.ssh/id_rsa
 RUN cat /root/.ssh/id_rsa.pub >> /root/.ssh/authorized_keys
 RUN cat /root/.ssh/authorized_keys
 RUN /usr/sbin/sshd
-#RUN ps -ef | grep sshd
 RUN systemctl enable sshd
 EXPOSE 22
 
@@ -38,13 +37,12 @@ RUN dnf install -y java-1.8.0-openjdk.x86_64
 RUN dnf install -y ansible-core
 RUN subscription-manager unregister
 COPY ansible/ /home/tcarter/
-#COPY ssh/ /root/.ssh/
-
 RUN updatedb
 
 #CMD ["/bin/bash"]
 CMD ["/usr/sbin/sshd", "-D"]
 #CMD ["/usr/sbin/init"]
+
 # docker build --no-cache -t rhel8-ansible .
 # docker build --progress=plain --no-cache -t rhel8-ansible . > build.log 2>&1
 # docker build --progress=plain --no-cache -t rhel8-ansible . | tee build.log 2>&1
