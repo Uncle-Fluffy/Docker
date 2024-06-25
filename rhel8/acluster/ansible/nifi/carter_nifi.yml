@@ -1,0 +1,30 @@
+---
+- name: Install NiFi
+  hosts: nifi_nodes
+  vars:
+    nifi_ver: 1.26.0
+    nifi_user: nifi
+    nifi_group: nifi
+    nifi_nodesnifi_install_dir: /opt/nifi
+    nifi_is_secure: true
+    nifi_security_truststore: /opt/nifi/truststore.jks
+    nifi_security_truststorePasswd: 123456
+    nifi_security_truststoreTyp: JKS
+    nifi_provenance_repository: /var/lib/storage/HDD/provenance_repository
+
+  pre_tasks:
+    - name: Pre Task Ping
+      action: ping
+
+  tasks:
+    - name: Main Task Ping
+      action: ping
+
+  post_tasks:
+    - name: Post Task Ping
+      action: ping
+      # - name: Ensure Nifi User exists
+      # become: true
+      # user: 
+      #   name: "{{ nifi_user }}"
+      # state: present
