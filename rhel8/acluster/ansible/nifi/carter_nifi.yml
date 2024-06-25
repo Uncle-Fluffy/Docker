@@ -5,26 +5,76 @@
     nifi_ver: 1.26.0
     nifi_user: nifi
     nifi_group: nifi
-    nifi_nodesnifi_install_dir: /opt/nifi
+    nifi_install_dir: /opt/nifi
     nifi_is_secure: true
     nifi_security_truststore: /opt/nifi/truststore.jks
     nifi_security_truststorePasswd: 123456
     nifi_security_truststoreTyp: JKS
     nifi_provenance_repository: /var/lib/storage/HDD/provenance_repository
+    nifi_content_repository: /var/lib/storage/HDD/content_repository
+    nifi_flowfile_repository: /var/lib/storage/HDD/flowfile_repository
+    nifi_database_repository: /var/lib/storage/HDD/database_repository
+    nifi_bootstrap_listen_port: 13840
+    nifi_web_https_port: 9443
+    nifi_remote_input_http_enabled: true
+    nifi_remote_input_socket_port: 10443
+    nifi_remote_input_secure: true
+    nifi_provenance_rollover_time: 30 secs
+    nifi_provenance_max_storage_size: 500 GB
+    nifi_provenance_max_storage_time: 24 hours
+    nifi_content_always_sync: false
+    nifi_content_archive_max_usage_percentage: 50%
+    nifi_content_archive_max_rentention_period: 3 hours
+    nifi_content_claim_max_appendable_size: 1 MB
+    nifi_content_archive_enabled: false
+    nifi_queue_swap_threshold: 300000
+    nifi_sensitive_props_key: this_stinks
+    nifi_initial_admin: CN=nifi, OU=foo
+    nifi_mode_jvm_memory: 337g
 
   pre_tasks:
-    - name: Pre Task Ping
-      action: ping
+    - name: Ensure Nifi User exists
+      become: true
+      user: 
+        name: "{{ nifi_user }}"
+        state: "present"
 
-  tasks:
-    - name: Main Task Ping
-      action: ping
+    - name: Create NiFi Installation Directory
+      file:
+        path: "{{ nifi_install_dir }}"
+        state: directory
+        mode: '0755'
+        owner: "{{ nifi_user }}"
+        group: "{{ nifi_group }}"
 
-  post_tasks:
-    - name: Post Task Ping
-      action: ping
-      # - name: Ensure Nifi User exists
-      # become: true
-      # user: 
-      #   name: "{{ nifi_user }}"
-      # state: present
+    - name: Set Permissions on NiFi Installation Directory
+      file:
+        path: "{{ nifi_install_dir }}"
+        state: directory
+        recurse: yes
+        mode: '0755'
+        owner: "{{ nifi_user }}"
+        group: "{{ nifi_group }}"
+
+    - name: Copy NiFi Distribution file
+      copy:
+        src: "files/nifi-{{ nifi_ver}}-bin.zip"
+        dest: "{{ nifi_install_dir }}"
+        owner: "{{ nifi_user }}"
+        group: "{{ nifi_group }}"
+
+    - name: Extract NiFi Distribution
+      unarchive:
+        src: "{{ nifi_install_dir}}/nifi-{{ nifi_ver}}-bin.zip"
+        dest: "{{ nifi_install_dir}}"
+        remote_src: yes
+        owner: "{{ nifi_user }}"
+        group: "{{ nifi_group }}"        
+
+  # tasks:
+  #   - name: Main Task Ping
+  #     action: ping
+
+  # post_tasks:
+  #   - name: Post Task Ping
+  #     action: ping
