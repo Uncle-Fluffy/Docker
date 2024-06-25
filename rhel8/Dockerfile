@@ -31,6 +31,7 @@ RUN dnf install -y iputils
 RUN dnf install -y traceroute
 RUN dnf install -y mlocate 
 RUN dnf install -y procps-ng
+RUN dnf install -y unzip
 
 RUN dnf install -y firewalld
 RUN dnf install -y java-1.8.0-openjdk.x86_64
