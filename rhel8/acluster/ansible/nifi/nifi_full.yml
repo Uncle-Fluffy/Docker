@@ -1,0 +1,13 @@
+---
+- name: Install NiFi
+  hosts: nifi_nodes
+  vars_files:
+    - vars-nifi.yml
+
+  pre_tasks:
+    - name: Create working directory
+      file:
+        path: "{{ nifi_base_dir }}"
+        state: directory
+        mode: '0755'
+        recurse: yes
