@@ -60,3 +60,17 @@
         -J-Dcom.redhat.fips=falsesecureTruststore
         -J-Dcom.redhat.fips=false
         -noprompt
+
+    - name: Ensure Nifi User exists
+      become: true
+      user: 
+        name: nifi
+        state: "present"
+
+    - name: "Sets Permissions of {{ nifi_base_dir }}"
+      file:
+        dest: "{{ nifi_base_dir }}"
+        owner: nifi
+        group: nifi
+        mode: '0755'
+        recurse: yes
