@@ -11,3 +11,52 @@
         state: directory
         mode: '0755'
         recurse: yes
+
+    - name: Move cert signature
+      copy:
+        src: "../certs/{{ inventory_hostname }}.crt"
+        dest: "/etc/pki/tls/certs/{{ inventory_hostname}}.crt"
+
+    - name: Move cert key
+      copy:
+        src: "../certs/{{ inventory_hostname }}.key"
+        dest: "/etc/pki/tls/certs/{{ inventory_hostname}}.key"
+
+    - name: Upload NiFi Distribution from location
+      copy:
+        src: "files/{{ nifi_tar_file }}"
+        dest: "{{ nifi_base_dir }}"
+
+    - name: Unarchive NiFi distribution
+      unarchive:
+        src: "{{ nifi_base_dir }}/{{ nifi_tar_file }}"
+        dest: "{{ nifi_base_dir }}"
+        copy: no
+
+    - name: Upload NiFi truststore from localhost
+      copy:
+        src: ../certs/truststore.jks
+        dest: "{{ nifi_base_dir }}"
+
+    - name: Step 1 of creating certs
+      ansible.builtin.command: >
+        openssl pkcs12 -export 
+        -in '/etc/pki/tls/certs/{{ inventory_hostname }}.crt' 
+        -passin pass:'{{ nifi_security_keystorePasswd }}'
+        -inkey '/etc/pki/tls/certs/{{ inventory_hostname }}.key' 
+        -certfile '/etc/pki/tls/certs/{{ inventory_hostname }}.crt' 
+        -passout pass:'{{ nifi_security_keystorePasswd }}'
+        -out '/etc/pki/tls/certs/{{ inventory_hostname }}.p12'
+
+    - name: Step 2 of creating certs
+      ansible.builtin.command: >
+        keytool -importkeystore 
+        -srckeystore '/etc/pki/tls/certs/{{ inventory_hostname }}.p12'
+        -srcstorepass '{{ nifi_security_keystorePasswd }}'
+        -srcstoretype pkcs12
+        -destkeystore '{{ nifi_base_dir}}/{{ inventory_hostname }}.jks'
+        -deststorepass '{{ nifi_security_keystorePasswd }}'
+        -deststoretype JKS
+        -J-Dcom.redhat.fips=falsesecureTruststore
+        -J-Dcom.redhat.fips=false
+        -noprompt
