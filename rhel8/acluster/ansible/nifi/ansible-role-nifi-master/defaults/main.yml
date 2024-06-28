@@ -1,0 +1,144 @@
+---
+#defaults file for nifi
+nifi_major_version: "{{ nifi_version | splittext | first }}"
+
+# NiFi service user settings
+nifi_create_home_dir: True
+nifi_home_dir: "/home/{{ nifi_user }}"
+nifi_default_shell: /bin/bash
+
+#installation locations
+nifi_base_dir: /opt/nifi
+nifi_etc_dir: /etc/nifi
+nifi_log_dir: /var/log/nifi
+nifi_pid_dir: /var/run/nifi
+nifi_repo_dir: /nifi
+
+#specify -Djava.io.tmpdir in bootstrap.conf, default is unspecified
+#nifi_tmp)dir: /tmp
+
+# set this to true to enable remote debugging
+nifi_enable_remote_debugging: False
+nifi_remot_debugging_port: 8000
+
+# whether to restart nifi after making changes: default is True, for cluster you may wish to disable
+nifi_perform_restart: True
+
+# whether to force a restart, usefull if another role hs made changes 
+nifi_force_restart: False 
+
+# a complete list of IP addresses for each nodes withn the nifi cluster
+nifi_authorized_nodes_list: []
+
+# extra arg that are usefull in expresion languages
+nifi_extra_args: []
+
+# list of directories for nifi to look in for additional nars.
+nifi_custom_nars: []
+
+#watched direcory watched for new NARs
+nifi_nar_library_autoload_directory: "{{ nifi_repo_dir }}/extensions"
+nifi_graceful_shutdown_secs: '20'
+nifi_node_jvm_memory: '1024m'
+nifi_java_command: 'java'
+
+#defaults file/ directories for nifi
+nifi_database_repository: "{{ nifi_repo_dir }}/database_repository"
+nifi_flowfile_repository: "{{ nifi_repo_dir }}/flowfile_repository"
+nifi_content_repositories: [ "{{ nifi_repo_dir }}/content_repository" ]
+nifi_provenance_repository: [ "{{ nifi_repo_dir }}/provenance_repository" ]
+
+# web properties
+nifi_input_socket_host:
+nifi_web_http_port: 8080
+nifi_web_max_header_size: '16 KB'
+nifi_web_procy_content_path:
+nifi_web_proxy_host:
+
+# Nifi cluster settings
+nifi_single_node: truenifi_cluster_node_address:
+nifi_cluster_node_protocol_port:
+
+# site to site properties
+nifi_+remote_inpute_host:
+nifi_remote_input_secure: False 
+nifi_remote_input_socket_port:
+nifi_remote_input_http_enabled: False 
+nifi_remote_input_http_transaction_ttl: '30 sec'
+
+# Queue swap settings
+nifi_wueue_swap_threshhold: 20000
+nifi_swap_in_threads: 1
+nifi_swap_out_threads: 4
+
+# Content Repository settings
+nifi_content_claim_max-Flow_files: 100
+nifi_content_claim_max_appendable_size: '10 MB'
+nifi_content_archive_max_retention_period: '12 hours'
+nifi_content_archive_max_usage_percentage: '50%'
+nifi_content_archive_enabled: 'false'
+nifi_content_always_sync: 'false'
+
+# Provenance Settings
+nifi_provenance_implementation: PersistenProvenanceRepository
+nifi_provenance_max_storage_time: '24 hours'
+nifi_provenance_max_storage_size: '1 GB'
+nifi_provenance_rollover_time: '30 secs'
+nifi_provenance_rollover_size: '00 MB'
+nifi_provenance_query_threads: 2
+nifi_provenance_index_threads: 2
+nifi_provenance_repository_buffer_size: 100000
+nifi_provenance_indexed_fields: EventType, FlowFielsUUID, Filename, ProcessorID, Relationship
+
+# status repository settings
+nifi_components_status_repository_buffer_size: 1440
+nifi_components_status_shnapshot_frequency: '1 min'
+
+# Nifi zookeeper settings
+nifi_zookeeper_servers: []
+nifi_zookeeper_dir: /data/zookeeper
+nifi_state_management_embedded_zookeeper_start: False
+nifi_zookeeper_root_node: '/nifi'
+nifi_zookeeper_session_timeout: '10 seconds'
+nifi_zookeeper_autopurge_purgeInterval: 24
+nifi_zookeeper_autopurge_snapRetainCount: 30
+
+# Security settings
+nifi_initial_admin:
+nifi_is_secure: false
+nifi_wep_https_port: 8443
+nifi_security_keystore: "{{ nifi_conf_dir }}/keystore.jks"
+nifi_security_keystoreType: jks
+nifi_security_keystorePasswd: ''
+nifi_security_keyPasswd: "{{ nifi_security_keystorePasswd }}"
+nifi_security_truststore: "{{ nifi_conf_dir }}/truststore.jks"
+nifi_security_truststoreType: jks
+nifi_security_truststorePasswd: ''
+
+# logback logging levels and settings
+nifi_log_app_file_retention: 10
+nifi_log_user_file_retention: 10
+nifi_log_boot_file_retention: 10
+nifi_log_level_root: INFO
+nifi_log_level_org_apache_nifi: INFO
+nifi_log_level_org_apache_nifi_processors: WARN
+nifi_log_level_org_apache_nifi_processors_standard_logAttribute: INFO
+nifi_log_level_org_apache_nifi_controller_repository: WARN
+nifi_log_level_org_apache_nifi_controller_repository_StandardProcessSession: WARN
+nifi_log_level_org_apache_nifi_cluster: INFO
+nifi_log_level_org_apache_nifi_server_JettyServer: INFO
+nifi_log_level_org_eclipse_jetty: INFO
+nifi_log_level_org_apache_nifi_web_security: INFO
+nifi_log_level_org_apache_nifi_web_api_config: INFO
+nifi_log_level_org_apache_nifi_authorization: INFO
+nifi_log_level_org_apache_nifi_cluster_authorization: INFO
+nifi_log_level_org_apache_nifi_bootstrap: INFO
+nifi_log_level_org_apache_nifi_bootstrap_Command: INFO
+nifi_log_level_org_apache_nifi_web_filter_requestLogger: INFO
+nifi_log_level_org_apache_nifi_web_api_AccessResource: INFO
+nifi_log_level_org_wali: WARN
+nifi_custom_log_levels: []
+
+# Extra Properties
+nifi_variable_registry_properties: [ "{{ nifi_conf_dir }}/extra-args.properties" ]
+
