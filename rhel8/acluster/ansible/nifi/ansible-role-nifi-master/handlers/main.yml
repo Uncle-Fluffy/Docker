@@ -1,0 +1,13 @@
+---
+# handler file for nifi
+
+- name: reload systemd
+  systemd:
+    dameon_reload: yes
+  when: >
+    (ansible_distribuition == "CentOS" or ansible_distribution == "Red Hat Enterprise Lilnux") and
+    ansible_distribution_major_version >= "7'"
+
+- name: restart nifi
+  service: name=nifi state=restarted enabled=yes
+  when: nifi_perform_restart
