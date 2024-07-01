@@ -1,0 +1,5 @@
+{% for extra in nifi_extra_ars -%}
+{% for key, value in extra.items() -%}
+{{ key }}={{ value }}
+{% endfor -%}
+{% endfor -%}
