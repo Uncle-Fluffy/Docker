@@ -74,3 +74,6 @@
         group: nifi
         mode: '0755'
         recurse: yes
+
+  roles:
+    - role: ansible-role-nifi-master

@@ -56,7 +56,8 @@ nifi_web_procy_content_path:
 nifi_web_proxy_host:
 
 # Nifi cluster settings
-nifi_single_node: truenifi_cluster_node_address:
+nifi_single_node: true
+nifi_cluster_node_address:
 nifi_cluster_node_protocol_port:
 
 # site to site properties

@@ -14,20 +14,25 @@
 
 # tasks file for nifi
 - name: Ensure nifi files are world-readable
-  file: path="{{ nifi_base_dir }}/nifi-{{ nifi_version }}" tate=directory mode="a+rX" recurse=yes
+  file: path="{{ nifi_base_dir }}/nifi-{{ nifi_version }}" state=directory mode="a+rX" recurse=yes
 
 - name: Ensure nifi symlink
   file: src="{{ nifi_base_dir }}/nifi-{{ nifi_version }}" dest="{{ nifi_home }}" state=link
+#
+#
 
 - name: create nifi systemd service
   template: src=nifi.service.j2 dest="{{ nifi_service }}" owner=root group=root mode=0644
   notify:
     - reload systemd
     - restart nifi
+#
+#
+#
   tags: [ service ]
 
 - name: Create nifi init.d service
-  template: src-nifi-startup.sh.j2 dest=/etc/init.d/nifi owner=root group=root mode=0755
+  template: src=nifi-startup.sh.j2 dest=/etc/init.d/nifi owner=root group=root mode=0755
   when: >
     ansibe_distribution == "Amazon" or
     ((ansible_distribution == "CentOS" or ansible_distribution == "Red Hat Enterprise Linux") and
@@ -35,7 +40,7 @@
   tags: [ service ]
 
 - name: Ensure nifi-required directiories exist and are world readable
-  file: path="{{ item }}" state-directory owner="{{ nifi_user }}" group="{{ nifi_user }}" mode=0755
+  file: path="{{ item }}" state=directory owner="{{ nifi_user }}" group="{{ nifi_user }}" mode=0755
   with_items:
     - "{{ nifi_bin_dir }}"
     - "{{ nifi_conf_dir }}"
@@ -69,7 +74,7 @@
   when: nifi_state_management_embedded_zookeeper_start
 
 - name: add myid file for embedded zookeeper
-  templat: src-"myid.j2" dest="{{ nifi_zookeeper_dir }}/myid" owner="{{ nifi_user }}" group="{{ nifi_user }}" mode='0644'
+  template: src="myid.j2" dest="{{ nifi_zookeeper_dir }}/myid" owner="{{ nifi_user }}" group="{{ nifi_user }}" mode='0644'
   when: nifi_state_management_embedded_zookeeper_start
 
 - name: ensure nifi extra directories exist
