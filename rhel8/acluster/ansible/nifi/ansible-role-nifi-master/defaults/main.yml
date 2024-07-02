@@ -46,7 +46,7 @@ nifi_java_command: 'java'
 nifi_database_repository: "{{ nifi_repo_dir }}/database_repository"
 nifi_flowfile_repository: "{{ nifi_repo_dir }}/flowfile_repository"
 nifi_content_repositories: [ "{{ nifi_repo_dir }}/content_repository" ]
-nifi_provenance_repository: [ "{{ nifi_repo_dir }}/provenance_repository" ]
+nifi_provenance_repositories: [ "{{ nifi_repo_dir }}/provenance_repository" ]
 
 # web properties
 nifi_input_socket_host:
