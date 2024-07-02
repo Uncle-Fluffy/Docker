@@ -2,7 +2,7 @@
 # vars file for nifi
 
 nifi_user: nifi
-nif_services: /etc/systemd/system/nifi.service
+nifi_service: /etc/systemd/system/nifi.service
 
 nifi_home: "{{ nifi_base_dir }}/nifi-current"
 nifi_bin_dir: "{{ nifi_home }}/bin"
