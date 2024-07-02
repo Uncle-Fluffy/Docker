@@ -1,6 +1,6 @@
 ---
 #defaults file for nifi
-nifi_major_version: "{{ nifi_version | splittext | first }}"
+nifi_major_version: "{{ nifi_version | splitext | first }}"
 
 # NiFi service user settings
 nifi_create_home_dir: True
