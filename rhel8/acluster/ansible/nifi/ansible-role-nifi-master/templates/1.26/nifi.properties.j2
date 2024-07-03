@@ -144,7 +144,7 @@ nifi.web.jetty.working.directory=./work/jetty
 nifi.web.jetty.threads=200
 nifi.web.max.header.size=16 KB
 nifi.web.proxy.context.path=/nifi
-nifi.web.proxy.host={{ soctoolsproxy }}:9443
+nifi.web.proxy.host={{ nifi_web_proxy_host }}
 
 # security properties #
 nifi.sensitive.props.key=
@@ -166,14 +166,14 @@ nifi.security.ocsp.responder.url=
 nifi.security.ocsp.responder.certificate=
 
 # OpenId Connect SSO Properties #
-nifi.security.user.oidc.discovery.url=https://{{soctoolsproxy}}:12443/auth/realms/{{openid_realm}}/.well-known/openid-configuration
-nifi.security.user.oidc.connect.timeout=10 secs
-nifi.security.user.oidc.read.timeout=10 secs
-nifi.security.user.oidc.client.id=soctools-nifi
-nifi.security.user.oidc.client.secret={{nifisecret.value}}
+nifi.security.user.oidc.discovery.url=
+nifi.security.user.oidc.connect.timeout=5 secs
+nifi.security.user.oidc.read.timeout=5 secs
+nifi.security.user.oidc.client.id=
+nifi.security.user.oidc.client.secret=
 nifi.security.user.oidc.preferred.jwsalgorithm=
-nifi.security.user.oidc.additional.scopes={{openid_scope}}
-nifi.security.user.oidc.claim.identifying.user={{openid_subjkey}}
+nifi.security.user.oidc.additional.scopes=
+nifi.security.user.oidc.claim.identifying.user=
 
 # Apache Knox SSO Properties #
 nifi.security.user.knox.url=
